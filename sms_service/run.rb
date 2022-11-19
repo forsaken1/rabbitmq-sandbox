@@ -1,29 +1,65 @@
 require "bunny"
 
-# Start a communication session with RabbitMQ
-conn = Bunny.new
-conn.start
+class SmsService
+  RECONNECT_AFTER = 5
+  QUEUE_NAME = 'sms'
 
-# open a channel
-ch = conn.create_channel
-ch.confirm_select
+  attr_accessor :conn, :channel, :queue
 
-# declare a queue
-q  = ch.queue("sms")
-q.subscribe(manual_ack: true) do |delivery_info, metadata, payload|
-  puts "This is the message: #{payload}"
-  # acknowledge the delivery so that RabbitMQ can mark it for deletion
-  ch.ack(delivery_info.delivery_tag)
+  def call
+    connect
+    create_channel
+    create_queue
+    listen
+    close
+  end
+
+  private
+
+  def connect
+    loop do
+      self.conn = Bunny.new
+      conn.start
+
+      puts 'Connected'
+      break
+    rescue Bunny::TCPConnectionFailed, AMQ::Protocol::EmptyResponseError
+      puts 'Retry..'
+      sleep RECONNECT_AFTER
+    end
+  end
+
+  def create_channel
+    self.channel = conn.create_channel
+    channel.confirm_select
+    puts 'Channel created'
+  end
+
+  def create_queue
+    self.queue = channel.queue(QUEUE_NAME)
+    puts 'Queue created'
+  end
+
+  def listen
+    loop do
+      queue.subscribe(manual_ack: true) do |delivery_info, metadata, payload|
+        puts "This is the message: #{payload}"
+        # acknowledge the delivery so that RabbitMQ can mark it for deletion
+        channel.ack(delivery_info.delivery_tag)
+      end
+      sleep 1
+    end
+  end
+
+  def close
+    channel.close
+    conn.close
+    puts 'Closed'
+  end
 end
+
+SmsService.new.call
 
 # await confirmations from RabbitMQ, see
 # https://www.rabbitmq.com/publishers.html#data-safety for details
 # ch.wait_for_confirms
-
-# give the above consumer some time consume the delivery and print out the message
-sleep 0.1
-
-ch.close
-conn.close
-
-puts "Done"
