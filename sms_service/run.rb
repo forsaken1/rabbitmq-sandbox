@@ -23,7 +23,7 @@ end
 # give the above consumer some time consume the delivery and print out the message
 sleep 0.1
 
-puts "Done"
-
 ch.close
 conn.close
+
+puts "Done"

@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+  backend:
+    build: backend
+    ports:
+      - "3000:4567"
+  sms_service:
+    build: sms_service
+  rabbit:
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
+      - "5672:5672"

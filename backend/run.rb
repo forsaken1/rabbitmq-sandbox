@@ -18,7 +18,7 @@ q.publish("sms")
 # https://www.rabbitmq.com/publishers.html#data-safety for details
 # ch.wait_for_confirms
 
-puts "Done"
-
 ch.close
 conn.close
+
+puts "Done"

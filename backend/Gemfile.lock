@@ -1,0 +1,40 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    amq-protocol (2.3.2)
+    bunny (2.19.0)
+      amq-protocol (~> 2.3, >= 2.3.1)
+      sorted_set (~> 1, >= 1.0.2)
+    mustermann (3.0.0)
+      ruby2_keywords (~> 0.0.1)
+    nio4r (2.5.8)
+    puma (6.0.0)
+      nio4r (~> 2.0)
+    rack (2.2.4)
+    rack-protection (3.0.3)
+      rack
+    rbtree (0.4.5)
+    ruby2_keywords (0.0.5)
+    set (1.0.3)
+    sinatra (3.0.3)
+      mustermann (~> 3.0)
+      rack (~> 2.2, >= 2.2.4)
+      rack-protection (= 3.0.3)
+      tilt (~> 2.0)
+    sorted_set (1.0.3)
+      rbtree
+      set (~> 1.0)
+    tilt (2.0.11)
+
+PLATFORMS
+  x86_64-darwin-19
+  x86_64-darwin-20
+  x86_64-linux
+
+DEPENDENCIES
+  bunny (>= 2.19.0)
+  puma
+  sinatra
+
+BUNDLED WITH
+   2.3.26
