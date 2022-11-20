@@ -4,8 +4,12 @@ services:
     build: backend
     ports:
       - "3000:4567"
+    environment:
+      RABBIT_HOST: rabbit
   sms_service:
     build: sms_service
+    environment:
+      RABBIT_HOST: rabbit
   rabbit:
     image: rabbitmq:3-management
     ports:

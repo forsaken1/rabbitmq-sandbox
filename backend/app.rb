@@ -1,4 +1,5 @@
 require 'sinatra'
+require_relative 'producer'
 
 configure do
   set :bind, '0.0.0.0'
@@ -9,5 +10,9 @@ before do
 end
 
 get '/' do
-  { "message": "ok" }.to_json
+  payload = { "message": "ok" }.to_json
+  producer = Producer.new
+  producer.send payload
+  producer.close
+  'OK'
 end
