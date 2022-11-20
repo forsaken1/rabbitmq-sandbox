@@ -10,7 +10,7 @@ before do
 end
 
 get '/' do
-  payload = { "message": "ok" }.to_json
+  payload = { 'message': 'ok' }.to_json
   producer = Producer.new
   producer.send payload
   producer.close

@@ -1,4 +1,4 @@
-require "bunny"
+require 'bunny'
 
 class Producer
   QUEUE_NAME = 'sms'
@@ -24,7 +24,3 @@ class Producer
     conn.close
   end
 end
-
-# await confirmations from RabbitMQ, see
-# https://www.rabbitmq.com/publishers.html#data-safety for details
-# ch.wait_for_confirms

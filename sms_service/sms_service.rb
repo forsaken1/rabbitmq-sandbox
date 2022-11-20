@@ -59,7 +59,3 @@ class SmsService
     puts 'Closed'
   end
 end
-
-# await confirmations from RabbitMQ, see
-# https://www.rabbitmq.com/publishers.html#data-safety for details
-# ch.wait_for_confirms
